@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .post-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--bs-body-color);
+    }
+    
+    .post-content h2 {
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .post-content h3 {
+        font-size: 1.4rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .post-content p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+    }
+    
+    .post-content blockquote {
+        border-left: 4px solid var(--bs-primary);
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        background: rgba(var(--bs-primary-rgb), 0.05);
+        border-radius: 0 8px 8px 0;
+        font-style: italic;
+    }
+    
+    .post-content ul, .post-content ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    .post-content li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .post-content code {
+        background: rgba(var(--bs-body-color-rgb), 0.05);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+    
+    .post-content pre {
+        background: rgba(var(--bs-body-color-rgb), 0.05);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+    }
+    
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+    }
+    
+    .post-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--bs-body-color);
+        opacity: 0.7;
+        font-size: 0.95rem;
+    }
+    
+    .post-meta-item i {
+        color: var(--bs-primary);
+    }
+    
+    /* Адаптация для темной темы */
+    [data-bs-theme="dark"] .post-content blockquote {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-bs-theme="dark"] .post-content code {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-bs-theme="dark"] .post-content pre {
+        background: rgba(255, 255, 255, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Кнопка возврата -->
+            <div class="mb-4">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary btn-back">
+                    <i class="bi bi-arrow-left me-2"></i>Назад
+                </a>
+            </div>
+            
+            <!-- Статья -->
+            <article class="bg-body-tertiary border rounded-4 p-4 p-lg-5 shadow-sm">
+                <h1 class="display-5 fw-bold mb-4">{{ post.name }}</h1>
+                
+                <!-- Мета-информация -->
+                <div class="post-meta">
+                    <span class="post-meta-item">
+                        <i class="bi bi-calendar3"></i>
+                        {{ post.time_update|date:"d F Y" }}
+                    </span>
+                    {% if post.author %}
+                    <span class="post-meta-item">
+                        <i class="bi bi-person"></i>
+                        {{ post.author.username }}
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <!-- Контент поста -->
+                <div class="post-content">
+                    {{ post.content|linebreaks }}
+                </div>
+            </article>
+            
+            <!-- Кнопка возврата внизу -->
+            <div class="text-center mt-4">
+                <a href="javascript:history.back()" class="btn btn-outline-primary rounded-pill px-5 py-2 nav-btn-custom">
+                    <i class="bi bi-arrow-left me-2"></i>Вернуться назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

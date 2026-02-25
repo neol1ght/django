@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Курсы по нейросетям{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3">Выберите курс</h1>
+    <p class="lead text-muted">Начните свой путь в информационные технологии</p>
+  </div>
+
+  <!-- Горизонтальное расположение курсов -->
+  <div class="d-flex flex-column gap-4 mb-5">
+    <!-- Курс 1 -->
+    <div class="card border rounded-3 bg-body">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-start gap-4"> <!-- Изменено на align-items-start -->
+          <div class="d-flex align-items-center justify-content-center flex-shrink-0" style="width: 80px; height: 80px;">
+            <i class="bi bi-cpu text-primary fs-1"></i>
+          </div>
+          <div class="flex-grow-1" style="min-width: 0;">
+            <h3 class="h4 fw-bold mb-2 text-body">Пользование нейросетями</h3>
+            <p class="text-body-secondary mb-0">
+              Изучим, что такое нейросеть, как она работает. Научимся правильно составлять запросы и найдем грамотный подход в обучении с помощью нейросетей
+            </p>
+          </div>
+          <div class="flex-shrink-0"> <!-- Убрали фиксированную высоту -->
+            <a href="{% url 'neuro_start' %}" class="btn btn-primary">Выбрать курс</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Курс 2 -->
+    <div class="card border rounded-3 bg-body">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-start gap-4">
+          <div class="d-flex align-items-center justify-content-center flex-shrink-0" style="width: 80px; height: 80px;">
+            <i class="bi bi-ethernet text-primary fs-1"></i>
+          </div>
+          <div class="flex-grow-1" style="min-width: 0;">
+            <h3 class="h4 fw-bold mb-2 text-body">Безопасное пользование интернетом</h3>
+            <p class="text-body-secondary mb-0">
+              Определим, какие ссылки на сайты являются безопасными, защитим себя от мошенников и ознакомимся с историей интернета
+            </p>
+          </div>
+          <div class="flex-shrink-0">
+            <a href="{% url 'ethernet_start' %}" class="btn btn-primary">Выбрать курс</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Курс 3 -->
+    <div class="card border rounded-3 bg-body">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-start gap-4">
+          <div class="d-flex align-items-center justify-content-center flex-shrink-0" style="width: 80px; height: 80px;">
+            <i class="bi bi-chat-dots text-primary fs-1"></i>
+          </div>
+          <div class="flex-grow-1" style="min-width: 0;">
+            <h3 class="h4 fw-bold mb-2 text-body">Инженер промптов</h3>
+            <p class="text-body-secondary mb-0">
+              Вводный курс по "Инженеру промтов". Прохождение подразумевает ваши знания о умении пользоваться нейросетями.
+            </p>
+          </div>
+          <div class="flex-shrink-0 align-items-center" style="height: 80px;">
+            <a href="{% url 'prompteng_start' %}" class="btn btn-primary">Выбрать курс</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Блок консультации -->
+  <div class="row mt-5 pt-5">
+    <div class="col-12">
+      <div class="card border rounded-3 bg-body">
+        <div class="card-body p-4 p-md-5">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h3 class="fw-bold mb-3 text-body">Не знаете с чего начать?</h3>
+              <p class="mb-0 text-body-secondary">
+                Рекомендуем начать с курса "Пользование нейросетями" - он подходит для новичков 
+                и даст базовое понимание работы с нейросетями.
+              </p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+              <a href="#" class="btn btn-primary btn-lg">Бесплатная консультация</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

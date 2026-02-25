@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    [data-bs-theme="dark"] .hover-lift:hover {
+        box-shadow: 0 1rem 2rem rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    .progress-step {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        background: var(--bs-body-bg);
+        border: 2px solid var(--bs-primary);
+        color: var(--bs-primary);
+    }
+    
+    .progress-step.completed {
+        background: var(--bs-primary);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Заголовок курса -->
+    <div class="text-center mb-5">
+        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-3">
+            <i class="bi bi-chat-dots me-2"></i>Курс 3 из 3
+        </span>
+        <h1 class="display-4 fw-bold mb-3">{{ title }}</h1>
+        <p class="lead text-body-secondary mx-auto" style="max-width: 800px;">
+            Научитесь создавать эффективные промпты для ChatGPT, Midjourney и других нейросетей
+        </p>
+        
+        {% if total_lessons > 0 %}
+        <!-- Прогресс бар -->
+        <div class="mt-4 mx-auto" style="max-width: 500px;">
+            <div class="d-flex justify-content-between mb-2">
+                <span class="small text-body-secondary">Прогресс курса</span>
+                <span class="small fw-bold">{{ completed_count }}/{{ total_lessons }} уроков</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-primary" 
+                     style="width: {% widthratio completed_count total_lessons 100 %}%">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Список уроков -->
+    {% if lessons %}
+    <div class="row g-4">
+        {% for lesson in lessons %}
+        <div class="col-md-6">
+            <div class="card h-100 border rounded-4 shadow-sm hover-lift position-relative">
+                {% if lesson.completed %}
+                <div class="position-absolute top-0 end-0 mt-3 me-3">
+                    <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                            {% if lesson.lesson_type == 'article' %}
+                                <div class="p-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-file-text text-primary fs-3"></i>
+                                </div>
+                            {% else %}
+                                <div class="p-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-question-circle text-warning fs-3"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge {% if lesson.lesson_type == 'article' %}bg-primary{% else %}bg-warning{% endif %}">
+                                    {{ lesson.display_type }} {{ lesson.display_number }}
+                                </span>
+                            </div>
+                            <h5 class="card-title fw-bold mb-0">{{ lesson.title }}</h5>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text text-body-secondary small mb-3">
+                        {% if lesson.lesson_type == 'article' %}
+                            {{ lesson.content|truncatewords:15 }}
+                        {% else %}
+                            Проверьте свои знания: {{ lesson.questions.count }} вопросов
+                        {% endif %}
+                    </p>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="small text-body-secondary">
+                            <i class="bi bi-clock me-1"></i>
+                            {% if lesson.lesson_type == 'article' %}
+                                ~15 мин
+                            {% else %}
+                                ~10 мин
+                            {% endif %}
+                        </span>
+                        <a href="
+                            {% if lesson.lesson_type == 'article' %}
+                                {% url 'prompteng_lesson_detail' lesson.id %}
+                            {% else %}
+                                {% url 'prompteng_test_detail' lesson.id %}
+                            {% endif %}
+                        " class="btn btn-outline-primary btn-sm rounded-pill px-4 nav-btn-custom">
+                            {% if lesson.completed %}
+                                <i class="bi bi-arrow-repeat me-1"></i>Повторить
+                            {% else %}
+                                Начать <i class="bi bi-arrow-right ms-1"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Если уроков нет -->
+    <div class="text-center py-5">
+        <div class="display-1 text-body-secondary mb-4">
+            <i class="bi bi-chat-dots"></i>
+        </div>
+        <h3>Курс скоро появится</h3>
+        <p class="text-body-secondary mb-4">Мы готовим для вас увлекательные уроки по промпт-инжинирингу</p>
+        <a href="{% url 'start_learning' %}" class="btn btn-primary rounded-pill px-5 py-3">
+            <i class="bi bi-arrow-left me-2"></i>Вернуться к курсам
+        </a>
+    </div>
+    {% endif %}
+    
+    <!-- Кнопка прогресса -->
+
+</div>
+{% endblock %}

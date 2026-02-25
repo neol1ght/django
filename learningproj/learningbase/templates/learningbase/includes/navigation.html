@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg navbar-dark back-custom shadow-sm">
+  <div class="container">
+    <!-- Логотип -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+      <span class="fs-5 me-3">GoLearning</span>
+    </a>
+
+    <!-- Кнопка для мобильной версии -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Основное содержимое навигации -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Навигационные ссылки -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'home' %}">
+            <i class="bi me-2 selected"></i>Главная
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'about' %}">
+            <i class="bi me-2 selected"></i>О нас
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'home' %}#posts">
+            <i class="bi me-2"></i>Новости
+          </a>
+        </li>
+      </ul>
+
+      <!-- Правая часть навигации -->
+      <div class="d-flex align-items-center">
+        <!-- Поиск -->
+
+        <!-- Переключатель темы -->
+        {% include 'learningbase/includes/theme_switcher.html' %}
+
+        <!-- Кнопка пользователя -->
+<div class="dropdown ms-3">
+    {% if user.is_authenticated %}
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="bi bi-person-circle me-1"></i>
+        <span class="d-none d-md-inline">{{ user.username }}</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+    <li>
+        <a class="dropdown-item text-body" href="{% url 'profile' %}">
+            <i class="bi bi-person me-2 text-primary"></i>Профиль
+        </a>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+        <a class="dropdown-item text-body" href="{% url 'logout' %}">
+            <i class="bi bi-box-arrow-right me-2 text-danger"></i>Выйти
+        </a>
+    </li>
+</ul>
+    {% else %}
+    <div class="d-flex gap-2">
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+        </a>
+        <a href="{% url 'register' %}" class="btn btn-light btn-sm">
+            <i class="bi bi-person-plus me-2"></i>Регистрация
+        </a>
+    </div>
+    {% endif %}
+</div>
+      </div>
+    </div>
+  </div>
+</nav>

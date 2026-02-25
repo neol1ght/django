@@ -1,0 +1,479 @@
+:root {
+    --bs-primary: #003268;
+    --bs-primary-rgb: 0, 50, 104;
+    --bs-btn-bg: #003268;
+    --bs-btn-border-color: #003268;
+    --bs-btn-hover-bg: #00244d;
+    --bs-btn-hover-border-color: #00244d;
+    --bs-link-color: #003268;
+    --bs-link-hover-color: #00244d;
+}
+/* Светлая тема */
+[data-bs-theme="light"] .card .btn-outline-primary {
+    color: #003268 !important;
+    border-color: #003268 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .card .btn-outline-primary:hover {
+    color: white !important;
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+/* Темная тема */
+[data-bs-theme="dark"] .card .btn-outline-primary {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .card .btn-outline-primary:hover {
+    color: #003268 !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+/* Для карточек с постами (если используешь другие классы) */
+[data-bs-theme="dark"] .card .btn-primary {
+    background-color: white !important;
+    border-color: white !important;
+    color: #003268 !important;
+}
+
+[data-bs-theme="dark"] .card .btn-primary:hover {
+    background-color: #f8f9fa !important;
+    border-color: #f8f9fa !important;
+    color: #003268 !important;
+}
+
+/* Для ссылок внутри карточек */
+[data-bs-theme="dark"] .card a:not(.btn) {
+    color: white !important;
+}
+
+[data-bs-theme="dark"] .card a:not(.btn):hover {
+    color: #e9ecef !important;
+}
+
+/* Светлая тема */
+[data-bs-theme="light"] .post-card-btn.btn-outline-primary {
+    color: #003268 !important;
+    border-color: #003268 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .post-card-btn.btn-outline-primary:hover {
+    color: white !important;
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+/* Темная тема */
+[data-bs-theme="dark"] .post-card-btn.btn-outline-primary {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .post-card-btn.btn-outline-primary:hover {
+    color: #003268 !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+.bg-primary {
+    background-color: #003268 !important;
+}
+.btn-primary {
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+.btn-primary:hover {
+    background-color: #00244d !important;
+    border-color: #00244d !important;
+}
+
+.btn-outline-primary {
+    color: #ffffff !important;
+    border-color: #003268 !important;
+}
+.btn-light {
+    color: #003268 !important;
+}
+.btn-light:hover {
+    color: #003268 !important;
+}
+.btn-outline-primary:hover {
+    background-color: #003268 !important;
+    color: white !important;
+}
+
+.text-primary {
+    color: #003268 !important;
+}
+
+.border-primary {
+    border-color: #003268 !important;
+}
+
+.bg-primary.bg-opacity-10 {
+    background-color: rgba(0, 50, 104, 0.1) !important;
+}
+
+.bg-primary.bg-opacity-25 {
+    background-color: rgba(0, 50, 104, 0.25) !important;
+}
+
+/* Прогресс бар */
+.progress-bar {
+    background-color: #003268 !important;
+}
+
+/* Пагинация */
+.page-link {
+    color: #ffffff !important;
+}
+
+.page-item.active .page-link {
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+/* Ссылки */
+a {
+    color: #ffffff !important;
+}
+
+a:hover {
+    color: #ffffff !important;
+}
+
+/* Карточки с border-primary */
+.card.border-primary {
+    border-color: #003268 !important;
+}
+
+.text-lg-end {
+    color: #00244d !important;
+}
+
+/* Дополнительно */
+/* Эффект поднятия при наведении */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Адаптация для темной темы */
+[data-bs-theme="dark"] .hover-lift:hover {
+    box-shadow: 0 1rem 2rem rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Стили для иконок */
+.bg-primary.bg-opacity-10 {
+    transition: all 0.3s ease;
+}
+
+.card:hover .bg-primary.bg-opacity-10 {
+    background-color: rgba(0, 50, 104, 0.2) !important;
+}
+
+/* Кнопка с закруглением */
+.btn.rounded-pill {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* Полное отключение всех эффектов при наведении */
+/* Полное отключение всех эффектов при наведении */
+.dropdown-item {
+    background-color: transparent !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item:active {
+    background-color: transparent !important;
+    color: var(--bs-body-color) !important;
+}
+
+/* Фиксим цвет иконок */
+.dropdown-item:hover i,
+.dropdown-item:focus i,
+.dropdown-item:active i {
+    color: inherit !important;
+}
+
+/* Для иконки профиля */
+.dropdown-item:hover .text-primary,
+.dropdown-item:focus .text-primary,
+.dropdown-item:active .text-primary {
+    color: #003268 !important;
+}
+
+/* Для иконки выхода */
+.dropdown-item:hover .text-danger,
+.dropdown-item:focus .text-danger,
+.dropdown-item:active .text-danger {
+    color: #dc3545 !important;
+}
+
+/* Убираем фон у всего меню при наведении */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:active {
+    background-color: transparent !important;
+}
+
+
+/* Для футера */
+/* Стили для футера */
+footer a {
+    transition: all 0.2s ease;
+}
+
+footer a:hover {
+    color: var(--bs-primary) !important;
+    transform: translateX(3px);
+}
+
+footer .btn-outline-primary {
+    transition: all 0.2s ease;
+}
+
+footer .btn-outline-primary:hover {
+    transform: translateY(-3px);
+}
+
+/* Адаптация для темной темы */
+[data-bs-theme="dark"] footer {
+    background-color: rgba(33, 37, 41, 0.95) !important;
+    border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-bs-theme="dark"] footer .text-body-secondary {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-bs-theme="dark"] footer hr {
+    border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Анимация для социальных кнопок */
+footer .btn-outline-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+footer .btn-outline-primary::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+footer .btn-outline-primary:hover::after {
+    left: 100%;
+}
+
+/* Стили для социальных кнопок */
+.social-btn {
+    transition: all 0.3s ease;
+    border-width: 1px;
+}
+
+/* Светлая тема */
+[data-bs-theme="light"] .social-btn {
+    background-color: rgba(0, 50, 104, 0.05) !important;
+    border-color: rgba(0, 50, 104, 0.3) !important;
+    color: #003268 !important;
+}
+
+[data-bs-theme="light"] .social-btn:hover {
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+    color: white !important;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 50, 104, 0.2);
+}
+
+[data-bs-theme="light"] .social-btn i {
+    color: #003268 !important;
+}
+
+[data-bs-theme="light"] .social-btn:hover i {
+    color: white !important;
+}
+
+/* Темная тема */
+[data-bs-theme="dark"] .social-btn {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+}
+
+[data-bs-theme="dark"] .social-btn:hover {
+    background-color: white !important;
+    border-color: white !important;
+    color: #003268 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+[data-bs-theme="dark"] .social-btn i {
+    color: white !important;
+}
+
+[data-bs-theme="dark"] .social-btn:hover i {
+    color: #003268 !important;
+}
+.btn-outline-primary.btn-outline-custom {
+    transition: all 0.3s ease;
+}
+
+/* Светлая тема */
+[data-bs-theme="light"] .btn-outline-primary.btn-outline-custom {
+    color: #003268 !important;
+    border-color: #003268 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .btn-outline-primary.btn-outline-custom:hover {
+    color: white !important;
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+/* Темная тема */
+[data-bs-theme="dark"] .btn-outline-primary.btn-outline-custom {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary.btn-outline-custom:hover {
+    color: #003268 !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+
+/* Для neuro-курсов */
+/* Кастомные стили для кнопок навигации */
+.nav-btn-custom {
+    transition: all 0.3s ease;
+}
+
+/* Светлая тема */
+[data-bs-theme="light"] .nav-btn-custom.btn-outline-primary {
+    color: #003268 !important;
+    border-color: #003268 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .nav-btn-custom.btn-outline-primary:hover {
+    color: white !important;
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+[data-bs-theme="light"] .nav-btn-custom.btn-outline-success {
+    color: #198754 !important;
+    border-color: #198754 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .nav-btn-custom.btn-outline-success:hover {
+    color: white !important;
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+}
+
+/* Темная тема */
+[data-bs-theme="dark"] .nav-btn-custom.btn-outline-primary {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .nav-btn-custom.btn-outline-primary:hover {
+    color: #003268 !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+[data-bs-theme="dark"] .nav-btn-custom.btn-outline-success {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .nav-btn-custom.btn-outline-success:hover {
+    color: #198754 !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+/* Кастомные стили для кнопок навигации */
+.nav-btn-custom {
+    transition: all 0.3s ease;
+}
+
+.nav-btn-custom.btn-outline-primary {
+    transition: all 0.3s ease;
+}
+
+/* Светлая тема - кнопки */
+[data-bs-theme="light"] .nav-btn-custom.btn-outline-primary,
+[data-bs-theme="light"] .btn-outline-secondary.btn-back {
+    color: #003268 !important;
+    border-color: #003268 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .nav-btn-custom.btn-outline-primary:hover,
+[data-bs-theme="light"] .btn-outline-secondary.btn-back:hover {
+    color: white !important;
+    background-color: #003268 !important;
+    border-color: #003268 !important;
+}
+
+/* Темная тема - кнопки */
+[data-bs-theme="dark"] .nav-btn-custom.btn-outline-primary,
+[data-bs-theme="dark"] .btn-outline-secondary.btn-back {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .nav-btn-custom.btn-outline-primary:hover,
+[data-bs-theme="dark"] .btn-outline-secondary.btn-back:hover {
+    color: #003268 !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+/* Стили для кнопки возврата */
+.btn-back {
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-back i {
+    font-size: 1.1rem;
+}

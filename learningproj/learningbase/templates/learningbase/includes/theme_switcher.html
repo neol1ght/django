@@ -1,0 +1,93 @@
+<!-- templates/includes/theme_switcher.html -->
+<div class="dropdown">
+  <button
+    class="btn border-light text-light dropdown-toggle d-flex align-items-center py-1 px-2"
+    id="themeSwitcher"
+    type="button"
+    data-bs-toggle="dropdown"
+  >
+    <!-- Иконка, которая будет меняться -->
+    <svg class="bi me-1 theme-icon" width="16" height="16" fill="currentColor">
+      <use href="#moon-stars-fill"></use>
+    </svg>
+    <span class="small">Тема</span>
+  </button>
+
+  <ul class="dropdown-menu dropdown-menu-end shadow">
+    <li>
+      <button
+        type="button"
+        class="dropdown-item d-flex align-items-center theme-option"
+        data-theme="light"
+      >
+        <svg
+          class="bi me-2 opacity-50"
+          width="16"
+          height="16"
+          fill="currentColor"
+        >
+          <use href="#sun-fill"></use>
+        </svg>
+        Светлая
+        <svg
+          class="bi ms-auto d-none check-icon"
+          width="16"
+          height="16"
+          fill="currentColor"
+        >
+          <use href="#check2"></use>
+        </svg>
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="dropdown-item d-flex align-items-center theme-option"
+        data-theme="dark"
+      >
+        <svg
+          class="bi me-2 opacity-50"
+          width="16"
+          height="16"
+          fill="currentColor"
+        >
+          <use href="#moon-stars-fill"></use>
+        </svg>
+        Темная
+        <svg
+          class="bi ms-auto d-none check-icon"
+          width="16"
+          height="16"
+          fill="currentColor"
+        >
+          <use href="#check2"></use>
+        </svg>
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="dropdown-item d-flex align-items-center theme-option"
+        data-theme="auto"
+      >
+        <svg
+          class="bi me-2 opacity-50"
+          width="16"
+          height="16"
+          fill="currentColor"
+        >
+          <use href="#circle-half"></use>
+        </svg>
+        Авто
+        <svg
+          class="bi ms-auto d-none check-icon"
+          width="16"
+          height="16"
+          fill="currentColor"
+        >
+          <use href="#check2"></use>
+        </svg>
+      </button>
+    </li>
+  </ul>
+</div>

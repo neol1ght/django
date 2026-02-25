@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-card {
+        background: var(--bs-body-bg);
+        border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+        border-radius: 20px;
+        padding: 2rem;
+        height: 70%;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        background: rgba(var(--bs-primary-rgb), 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        border: 3px solid var(--bs-primary);
+    }
+    
+    .profile-avatar i {
+        font-size: 4rem;
+        color: var(--bs-primary);
+    }
+    
+    .stat-card {
+        background: var(--bs-body-bg);
+        border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+        border-radius: 15px;
+        padding: 1.5rem;
+        height: 100%;
+        text-align: center;
+    }
+    
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(var(--bs-primary-rgb), 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+    
+    .stat-icon i {
+        font-size: 2rem;
+        color: var(--bs-primary);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--bs-primary);
+        margin-bottom: 0.25rem;
+    }
+    
+    .course-progress-item {
+        background: var(--bs-body-bg);
+        border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .course-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(var(--bs-primary-rgb), 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .course-icon i {
+        font-size: 1.2rem;
+        color: var(--bs-primary);
+    }
+    
+    [data-bs-theme="dark"] .profile-card,
+    [data-bs-theme="dark"] .stat-card,
+    [data-bs-theme="dark"] .course-progress-item {
+        background: rgba(33, 37, 41, 0.8);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-bs-theme="dark"] .profile-avatar,
+    [data-bs-theme="dark"] .stat-icon,
+    [data-bs-theme="dark"] .course-icon {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-bs-theme="dark"] .profile-avatar i,
+    [data-bs-theme="dark"] .stat-icon i,
+    [data-bs-theme="dark"] .course-icon i {
+        color: #003268 !important;
+    }
+    
+    [data-bs-theme="dark"] .stat-number {
+        color: #003268 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="profile-card">
+                <div class="text-center">
+                    <div class="profile-avatar">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-1">{{ user.username }}</h3>
+                    <p class="text-body-secondary mb-3">{{ user.email }}</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
+                            <i class="bi bi-calendar3 me-1"></i>
+                            С {{ user.date_joined|date:"d.m.Y" }}
+                        </span>
+                    </div>
+                    <div class="d-grid">
+                        <a href="{% url 'start_learning' %}" class="btn btn-primary rounded-pill py-2">
+                            <i class="bi bi-play-circle me-2"></i>Продолжить обучение
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row g-3 mb-4">
+                <div class="col-sm-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-book"></i>
+                        </div>
+                        <div class="stat-number">{{ total_completed }}</div>
+                        <div class="stat-label">всего пройдено уроков</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <div class="stat-number">{{ courses_completed|default:"0" }}</div>
+                        <div class="stat-label">завершенных курсов</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <div class="stat-number">{{ avg_score|default:"0" }}%</div>
+                        <div class="stat-label">средний результат</div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-card">
+                <h5 class="fw-bold mb-4">
+                    <i class="bi bi-bar-chart me-2 text-primary"></i>
+                    Прогресс по курсам
+                </h5>
+                <div class="course-progress-item">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="course-icon me-3">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-0">Нейросети для начинающих</h6>
+                        </div>
+                        <span class="small text-body-secondary">
+                            {{ neuro_progress.completed }}/{{ neuro_progress.total }}
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-primary" style="width: {{ neuro_progress.percentage }}%"></div>
+                    </div>
+                </div>
+                <div class="course-progress-item">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="course-icon me-3">
+                            <i class="bi bi-ethernet"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-0">Безопасное пользование интернетом</h6>
+                        </div>
+                        <span class="small text-body-secondary">
+                            {{ ethernet_progress.completed }}/{{ ethernet_progress.total }}
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-primary" style="width: {{ ethernet_progress.percentage }}%"></div>
+                    </div>
+                </div>
+                <div class="course-progress-item mb-0">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="course-icon me-3">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-0">Инженер промптов</h6>
+                        </div>
+                        <span class="small text-body-secondary">
+                            {{ prompt_progress.completed }}/{{ prompt_progress.total }}
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-primary" style="width: {{ prompt_progress.percentage }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

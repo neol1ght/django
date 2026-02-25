@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">Мой прогресс</h1>
+        <p class="lead">Вы прошли {{ completed_count }} из {{ total_lessons }} уроков</p>
+        
+        <!-- Общий прогресс -->
+        <div class="progress mx-auto" style="height: 30px; max-width: 500px;">
+            <div class="progress-bar progress-bar-striped bg-success" 
+                 style="width: {% widthratio completed_count total_lessons 100 %}%">
+                {% widthratio completed_count total_lessons 100 %}%
+            </div>
+        </div>
+    </div>
+    
+    <!-- Список пройденных уроков -->
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Пройденные уроки</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for progress in completed_lessons %}
+                    <div class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">{{ progress.lesson.title }}</h6>
+                            <small class="text-muted">
+                                Пройдено: {{ progress.completed_at|date:"d.m.Y H:i" }}
+                            </small>
+                        </div>
+                        <a href="
+                            {% if progress.lesson.lesson_type == 'article' %}
+                                {% url 'neuro_lesson_detail' progress.lesson.id %}
+                            {% else %}
+                                {% url 'neuro_test_detail' progress.lesson.id %}
+                            {% endif %}
+                        " class="btn btn-sm btn-outline-primary">
+                            Повторить
+                        </a>
+                    </div>
+                    {% empty %}
+                    <div class="list-group-item text-center py-4">
+                        <i class="bi bi-emoji-neutral fs-1 text-muted d-block mb-3"></i>
+                        <p class="text-muted mb-0">Вы еще не прошли ни одного урока</p>
+                        <a href="{% url 'neuro_start' %}" class="btn btn-primary mt-3">
+                            Начать обучение
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Кнопка возврата -->
+            <div class="text-center mt-4">
+                <a href="{% url 'neuro_start' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Вернуться к курсу
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

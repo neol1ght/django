@@ -1,0 +1,368 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .test-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+        background: var(--bs-body-bg);
+        border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+    
+    .question-block {
+        margin-bottom: 30px;
+        padding: 25px;
+        border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+        border-radius: 15px;
+        background: rgba(var(--bs-body-bg-rgb), 0.5);
+    }
+    
+    .question-text {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 25px;
+        color: var(--bs-body-color);
+    }
+    
+    .answer-option {
+        padding: 15px 20px;
+        margin: 10px 0;
+        border: 2px solid rgba(var(--bs-body-color-rgb), 0.15);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--bs-body-color);
+    }
+    
+    .answer-option:hover {
+        border-color: var(--bs-primary);
+        background: rgba(var(--bs-primary-rgb), 0.05);
+        transform: translateX(5px);
+    }
+    
+    .answer-option.selected {
+        border-color: var(--bs-primary);
+        background: rgba(var(--bs-primary-rgb), 0.1);
+    }
+    
+    .answer-option.correct {
+        border-color: #198754;
+        background: rgba(25, 135, 84, 0.1);
+    }
+    
+    .answer-option.incorrect {
+        border-color: #dc3545;
+        background: rgba(220, 53, 69, 0.1);
+    }
+    
+    .feedback-message {
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 12px;
+        display: none;
+        font-weight: 500;
+    }
+    
+    .feedback-correct {
+        background: rgba(25, 135, 84, 0.1);
+        color: #198754;
+        border: 1px solid #198754;
+    }
+    
+    .feedback-incorrect {
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        border: 1px solid #dc3545;
+    }
+    
+    .progress-indicator {
+        text-align: center;
+        margin-bottom: 25px;
+        color: var(--bs-body-color);
+        font-size: 1.1rem;
+    }
+    
+    /* Кнопка завершения теста */
+    #mark-test-complete {
+        border-radius: 50px;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    
+    [data-bs-theme="light"] #mark-test-complete {
+        background: #198754;
+        border-color: #198754;
+        color: white;
+    }
+    
+    [data-bs-theme="light"] #mark-test-complete:hover {
+        background: #146c43;
+        border-color: #146c43;
+    }
+    
+    [data-bs-theme="dark"] #mark-test-complete {
+        background: white;
+        border-color: white;
+        color: #198754;
+    }
+    
+    [data-bs-theme="dark"] #mark-test-complete:hover {
+        background: transparent;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Навигация -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'ethernet_start' %}" class="btn btn-outline-secondary btn-back">
+            <i class="bi bi-arrow-left me-2"></i>К списку уроков
+        </a>
+        <div>
+            <span class="badge bg-warning rounded-pill px-3 py-2">
+                Тест {{ current_test_number }}/{{ total_tests }}
+            </span>
+            {% if is_completed %}
+            <span class="badge bg-success rounded-pill px-3 py-2 ms-2">
+                <i class="bi bi-check-circle-fill me-1"></i>Пройдено
+            </span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Тест -->
+    <div class="test-container">
+        <h2 class="text-center mb-4">{{ lesson.title }}</h2>
+        
+        <div class="progress-indicator">
+            Вопрос <span id="current-question-num">1</span> из <span id="total-questions">{{ questions|length }}</span>
+        </div>
+        
+        <div id="questions-container">
+            {% for question in questions %}
+            <div class="question-block" data-question-id="{{ question.id }}" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                <div class="question-text">{{ question.question_text }}</div>
+                
+                {% for answer in question.answers.all %}
+                <div class="answer-option" data-answer-id="{{ answer.id }}" data-is-correct="{{ answer.is_correct|lower }}">
+                    {{ answer.answer_text }}
+                </div>
+                {% endfor %}
+                
+                <div class="feedback-message"></div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Кнопки навигации по вопросам -->
+        <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-outline-primary rounded-pill px-4 nav-btn-custom" id="prev-question" disabled>
+                <i class="bi bi-arrow-left me-2"></i>Предыдущий
+            </button>
+            <button class="btn btn-outline-primary rounded-pill px-4 nav-btn-custom" id="next-question" disabled>
+                Далее <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+        </div>
+        
+        <!-- Кнопка завершения теста -->
+        <div class="text-center mt-4" id="complete-section" style="display: none;">
+            <button class="btn btn-success" id="mark-test-complete" data-lesson-id="{{ lesson.id }}">
+                <i class="bi bi-check-circle me-2"></i>Завершить тест
+            </button>
+        </div>
+    </div>
+    
+    <!-- Навигация между уроками -->
+    <div class="d-flex justify-content-between mt-4">
+        {% if prev_lesson %}
+            {% if prev_lesson.lesson_type == 'article' %}
+                <a href="{% url 'ethernet_lesson_detail' prev_lesson.id %}" class="btn btn-outline-primary rounded-pill nav-btn-custom">
+                    <i class="bi bi-arrow-left me-2"></i>{{ prev_lesson.title|truncatechars:20 }}
+                </a>
+            {% else %}
+                <a href="{% url 'ethernet_test_detail' prev_lesson.id %}" class="btn btn-outline-primary rounded-pill nav-btn-custom">
+                    <i class="bi bi-arrow-left me-2"></i>{{ prev_lesson.title|truncatechars:20 }}
+                </a>
+            {% endif %}
+        {% else %}
+            <div></div>
+        {% endif %}
+        
+        {% if next_lesson %}
+            {% if next_lesson.lesson_type == 'article' %}
+                <a href="{% url 'ethernet_lesson_detail' next_lesson.id %}" class="btn btn-outline-primary rounded-pill nav-btn-custom" id="next-lesson-link">
+                    {{ next_lesson.title|truncatechars:20 }}<i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            {% else %}
+                <a href="{% url 'ethernet_test_detail' next_lesson.id %}" class="btn btn-outline-primary rounded-pill nav-btn-custom" id="next-lesson-link">
+                    {{ next_lesson.title|truncatechars:20 }}<i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'ethernet_start' %}" class="btn btn-outline-success rounded-pill nav-btn-custom">
+                Завершить курс <i class="bi bi-check-circle ms-2"></i>
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const questions = document.querySelectorAll('.question-block');
+    const totalQuestions = questions.length;
+    let currentQuestion = 0;
+    let answeredQuestions = new Array(totalQuestions).fill(false);
+    
+    const prevBtn = document.getElementById('prev-question');
+    const nextBtn = document.getElementById('next-question');
+    const currentNumSpan = document.getElementById('current-question-num');
+    const completeSection = document.getElementById('complete-section');
+    const nextLessonLink = document.getElementById('next-lesson-link');
+    
+    // Блокируем ссылку на следующий урок, если тест не пройден
+    if (nextLessonLink && !{{ is_completed|yesno:"true,false" }}) {
+        nextLessonLink.classList.add('disabled');
+        nextLessonLink.style.opacity = '0.5';
+        nextLessonLink.style.pointerEvents = 'none';
+    }
+    
+    // Показываем первый вопрос
+    if (questions.length > 0) {
+        showQuestion(0);
+    }
+    
+    // Обработка ответов
+    document.querySelectorAll('.answer-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const questionBlock = this.closest('.question-block');
+            const questionIndex = Array.from(questions).indexOf(questionBlock);
+            
+            if (answeredQuestions[questionIndex]) return;
+            
+            const isCorrect = this.dataset.isCorrect === 'true';
+            const feedbackDiv = questionBlock.querySelector('.feedback-message');
+            
+            // Убираем предыдущие выделения
+            questionBlock.querySelectorAll('.answer-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Выделяем выбранный ответ
+            this.classList.add('selected');
+            
+            if (isCorrect) {
+                // Правильный ответ
+                this.classList.add('correct');
+                feedbackDiv.textContent = '✅ Правильно!';
+                feedbackDiv.className = 'feedback-message feedback-correct';
+                feedbackDiv.style.display = 'block';
+                
+                answeredQuestions[questionIndex] = true;
+                
+                // Проверяем, все ли вопросы отвечены
+                const allAnswered = answeredQuestions.every(val => val === true);
+                
+                if (allAnswered) {
+                    // Все вопросы отвечены правильно
+                    completeSection.style.display = 'block';
+                    nextBtn.disabled = true;
+                    
+                    // Разблокируем ссылку на следующий урок
+                    if (nextLessonLink) {
+                        nextLessonLink.classList.remove('disabled');
+                        nextLessonLink.style.opacity = '1';
+                        nextLessonLink.style.pointerEvents = 'auto';
+                    }
+                } else {
+                    // Разблокируем кнопку далее, если не последний вопрос
+                    if (questionIndex < totalQuestions - 1) {
+                        nextBtn.disabled = false;
+                    }
+                }
+            } else {
+                // Неправильный ответ
+                this.classList.add('incorrect');
+                feedbackDiv.textContent = '❌ Неправильно. Попробуй еще раз!';
+                feedbackDiv.className = 'feedback-message feedback-incorrect';
+                feedbackDiv.style.display = 'block';
+                
+                // Через 2 секунды сбрасываем выбор
+                setTimeout(() => {
+                    this.classList.remove('selected', 'incorrect');
+                    feedbackDiv.style.display = 'none';
+                }, 2000);
+            }
+        });
+    });
+    
+    // Навигация по вопросам
+    prevBtn.addEventListener('click', function() {
+        if (currentQuestion > 0) {
+            questions[currentQuestion].style.display = 'none';
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+    });
+    
+    nextBtn.addEventListener('click', function() {
+        if (currentQuestion < totalQuestions - 1 && answeredQuestions[currentQuestion]) {
+            questions[currentQuestion].style.display = 'none';
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        }
+    });
+    
+    function showQuestion(index) {
+        questions[index].style.display = 'block';
+        currentNumSpan.textContent = index + 1;
+        
+        // Обновляем кнопки
+        prevBtn.disabled = index === 0;
+        
+        // Если на этот вопрос уже ответили, блокируем кнопку далее
+        if (answeredQuestions[index]) {
+            nextBtn.disabled = index === totalQuestions - 1;
+        } else {
+            nextBtn.disabled = true;
+        }
+    }
+    
+    // Отметка теста как пройденного
+    const markTestCompleteBtn = document.getElementById('mark-test-complete');
+    if (markTestCompleteBtn) {
+        markTestCompleteBtn.addEventListener('click', function() {
+            const lessonId = this.dataset.lessonId;
+            
+            fetch(`/ethernet-start/mark-complete/${lessonId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (data.next_url) {
+                        window.location.href = data.next_url;
+                    } else {
+                        window.location.href = '{% url "ethernet_start" %}';
+                    }
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}
