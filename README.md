@@ -1,7 +1,7 @@
 # 🎯 Django Project
 
 ![Django](https://img.shields.io/badge/django-4.2-green?style=for-the-badge&logo=django)
-![Python](https://img.shields.io/badge/python-3.8+-blue?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge&logo=python)
 ![SQLite](https://img.shields.io/badge/sqlite-3-blue?style=for-the-badge&logo=sqlite)
 ![GitHub](https://img.shields.io/badge/license-MIT-white?style=for-the-badge)
 
@@ -37,20 +37,21 @@ cd django
 bash
 python -m venv .venv
 .venv\Scripts\activate
-Для MacOS/Linux:
 
+Для MacOS/Linux:
 bash
 python3 -m venv .venv
 source .venv/bin/activate
-3. Установите зависимости
 
+3. Установите django и django-extensions (будучи в активированном venv)
 bash
-pip install -r requirements.txt
-4. Запустите сервер
+pip install django
+pip install django-extesions -- данную установку выполняйте строго после установки django (выше)
 
+4. Запустите сервер
 bash
 cd learningproj
 python manage.py runserver
-5. Откройте в браузере
 
+5. Откройте в браузере
 Перейдите по адресу: http://127.0.0.1:8000
